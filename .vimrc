@@ -38,6 +38,7 @@ Plugin 'scrooloose/syntastic'
 "Plugin 'file://~/.vim/bundle/vim-airline'
 "Plugin 'file://~/.vim/bundle/vim-airline-themes'
 Plugin 'majutsushi/tagbar'
+Plugin 'taglist.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
@@ -570,6 +571,7 @@ set tags=./tags,tags;$HOME
 
 let strip_whitespace_on_save = 1
 
+"enable spell checking
 setlocal spell spelllang=en_us
 
 set tabstop=4
@@ -604,7 +606,7 @@ set listchars=tab:>-     " > is shown at the beginning, - throughout
 "quick format current line in normal mode
 nnoremap v= <s-v>=
 
-" quick ici dict searching
+" quick ici dict searching, sudo `which pip` install ici first,
 nmap <Leader>y :!echo --==<C-R><C-w>==-- ;ici <C-R><C-W><CR>
 
 "let g:clang_format#style_options = {
@@ -621,3 +623,19 @@ nmap <Leader>y :!echo --==<C-R><C-w>==-- ;ici <C-R><C-W><CR>
 "" Toggle auto formatting:
 "nmap <Leader>C :ClangFormatAutoToggle<CR>
 "autocmd FileType c ClangFormatAutoEnable
+
+
+map <silent> w <Plug>CamelCaseMotion_w
+map <silent> b <Plug>CamelCaseMotion_b
+map <silent> e <Plug>CamelCaseMotion_e
+map <silent> ge <Plug>CamelCaseMotion_ge
+sunmap w
+sunmap b
+sunmap e
+sunmap ge
+omap <silent> iw <Plug>CamelCaseMotion_iw
+xmap <silent> iw <Plug>CamelCaseMotion_iw
+omap <silent> ib <Plug>CamelCaseMotion_ib
+xmap <silent> ib <Plug>CamelCaseMotion_ib
+omap <silent> ie <Plug>CamelCaseMotion_ie
+xmap <silent> ie <Plug>CamelCaseMotion_ie
