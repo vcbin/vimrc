@@ -2,4 +2,4 @@
 my .vimrc config
 
 configuration effect  
-![vim snapshot](https://postimg.org/image/wu83jxu4h/)
+![vim snapshot](https://s8.postimg.org/5jmsc0r7p/my_vimrc_UI.png)
