@@ -45,8 +45,9 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'rking/ag.vim'
 Plugin 'mileszs/ack.vim'
+Plugin 'mhinz/vim-grepper'
 Plugin 'kien/ctrlp.vim'
-Plugin 'CCTree'
+Plugin 'hari-rangarajan/CCTree'
 "Plugin 'file://~/.vim/bundle/tabular' "similar to 'vim-easy-align'
 "Plugin 'file://~/.vim/bundle/nerdtree'
 Plugin 'emezeske/manpageview'
@@ -59,7 +60,7 @@ Plugin 'vim-ctrlspace/vim-ctrlspace'
 Plugin 'csv.vim'
 Plugin 'edkolev/promptline.vim'
 Plugin 'Valloric/ListToggle'
-Plugin 'luochen1990/rainbow'
+"Plugin 'luochen1990/rainbow'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'gregsexton/MatchTag'
 Plugin 'tmhedberg/matchit'
@@ -106,6 +107,7 @@ Plugin 'DoxygenToolkit.vim'
 Plugin 'MattesGroeger/vim-bookmarks'
 Plugin 'Flowerowl/ici.vim'
 Plugin 'bkad/CamelCaseMotion'
+Plugin 'skywind3000/asyncrun.vim' " vim 8.0 only
 "Plugin 'rhysd/vim-clang-format' " freeze the editor , typing is stuttering as hell
 "Plugin 'joonty/vdebug'
 
@@ -219,7 +221,7 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 "let g:airline#extensions#tabline#buffer_nr_show = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
 set laststatus=2
 
 let g:syntastic_always_populate_loc_list = 1
@@ -436,33 +438,33 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
-"" rainbow parentheses, not working under vim 8.0
-"let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
-"let g:rainbow_conf = {
-			"\   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
-			"\   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
-			"\   'operators': '_,_',
-			"\   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-			"\   'separately': {
-			"\       '*': {},
-			"\       'tex': {
-			"\           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
-			"\       },
-			"\       'lisp': {
-			"\           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
-			"\       },
-			"\       'vim': {
-			"\           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
-			"\       },
-			"\       'html': {
-			"\           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
-			"\       },
-			"\       'css': 0,
-			"\   }
-			"\}
+" rainbow parentheses
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+let g:rainbow_conf = {
+    \   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+    \   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+    \   'operators': '_,_',
+    \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+    \   'separately': {
+    \       '*': {},
+    \       'tex': {
+    \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+    \       },
+    \       'lisp': {
+    \           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+    \       },
+    \       'vim': {
+    \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+    \       },
+    \       'html': {
+    \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+    \       },
+    \       'css': 0,
+    \   }
+    \}
 
 
-"function! g:UltiSnips_Complete()
+"functiona g:UltiSnips_Complete()
     "call UltiSnips#ExpandSnippet()
     "if g:ulti_expand_res == 0
         "if pumvisible()
@@ -639,3 +641,18 @@ omap <silent> ib <Plug>CamelCaseMotion_ib
 xmap <silent> ib <Plug>CamelCaseMotion_ib
 omap <silent> ie <Plug>CamelCaseMotion_ie
 xmap <silent> ie <Plug>CamelCaseMotion_ie
+
+
+" AWK Embedding:
+" ==============
+" Shamelessly ripped from aspperl.vim by Aaron Hope.
+if exists("b:current_syntax")
+    unlet b:current_syntax
+endif
+syn include @AWKScript syntax/awk.vim
+syn region AWKScriptCode matchgroup=AWKCommand start=+[=\\]\@<!'+ skip=+\\'+ end=+'+ contains=@AWKScript contained
+syn region AWKScriptEmbedded matchgroup=AWKCommand start=+\<awk\>+ skip=+\\$+ end=+[=\\]\@<!'+me=e-1 contains=@shIdList,@shExprList2 nextgroup=AWKScriptCode
+syn cluster shCommandSubList add=AWKScriptEmbedded
+hi def link AWKCommand Type
+
+"let g:rainbow_active = 1
