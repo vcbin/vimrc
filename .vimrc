@@ -33,6 +33,7 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " All of your Plugins must be added before the following line
 "Plugin 'file://~/.vim/bundle/syntastic'
 Plugin 'a.vim'
+Plugin 'sh.vim--Cla'
 Plugin 'scrooloose/syntastic'
 "Plugin 'file://~/.vim/bundle/Tagbar'
 "Plugin 'file://~/.vim/bundle/vim-airline'
@@ -64,7 +65,6 @@ Plugin 'Valloric/ListToggle'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'gregsexton/MatchTag'
 Plugin 'tmhedberg/matchit'
-Plugin 'matchit.zip'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'haya14busa/incsearch-fuzzy.vim'
@@ -108,6 +108,9 @@ Plugin 'MattesGroeger/vim-bookmarks'
 Plugin 'Flowerowl/ici.vim'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'skywind3000/asyncrun.vim' " vim 8.0 only
+Plugin 'tpope/vim-obsession'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'Chiel92/vim-autoformat'
 "Plugin 'rhysd/vim-clang-format' " freeze the editor , typing is stuttering as hell
 "Plugin 'joonty/vdebug'
 
@@ -172,9 +175,6 @@ let mapleader=","
 
 inoremap jj <esc>
 
-nnoremap <F3> :set invpaste paste?<CR>
-set pastetoggle=<F3>
-
 " for vim play nice with tmux
 if &term =~ '^screen'
     " tmux will send xterm-style keys when its xterm-keys option is on
@@ -202,6 +202,9 @@ let g:ctrlp_cmd = 'CtrlP'
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
+noremap <F2> :Autoformat<CR>
+nnoremap <F3> :set invpaste paste?<CR>
+set pastetoggle=<F3>
 nnoremap <F5> :UndotreeToggle<cr>
 nnoremap <F6> :NERDTreeToggle<CR>
 nnoremap <F7> :TagbarToggle<CR>
@@ -226,12 +229,14 @@ set laststatus=2
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0 " remove ANNOYING pep8 warnings
 let g:syntastic_check_on_wq = 0
 
 set autoread
 set number
 syntax enable
+syntax on
+set showcmd
 
 let g:load_doxygen_syntax=1
 nnoremap dox :Dox<CR>
@@ -291,6 +296,12 @@ nnoremap N Nzz
 " for ycm
 "let g:loaded_youcompleteme = 1 " disable ycm, conflict with acp plugin
 "let g:ycm_show_diagnostics_ui = 0 " pep8 error is annoying!!
+let g:ycm_server_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
+let g:ycm_warning_symbol = '.'
+let g:ycm_error_symbol = '..'
+let g:ycm_server_use_vim_stdout = 1
+
 let g:ycm_auto_trigger = 1
 let g:ycm_error_symbol = '>>'
 let g:ycm_warning_symbol = '>*'
@@ -489,7 +500,7 @@ let g:rainbow_conf = {
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsSnippetsDir = '~/.vim/bundle/vim-snippets/UltiSnips'
-let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " If you want :UltiSnipsEdit to split your window.
@@ -552,7 +563,7 @@ let g:buffergator_viewport_split_policy = 'R'
 let g:buffergator_suppress_keymaps = 1
 
 " Looper buffers
-"let g:buffergator_mru_cycle_loop = 1
+let g:buffergator_mru_cycle_loop = 1
 
 " Go to the previous buffer open
 nmap <leader>jj :BuffergatorMruCyclePrev<cr>
@@ -581,7 +592,7 @@ set shiftwidth=4
 set expandtab
 
 " insert newline after brackets/parentheses for long arguments
-nnoremap icr i<cr><esc><s-v>=
+nnoremap icr i<cr><esc><s-v>=ko
 
 " Select lines with V, hit leader z a.
 "Everything above and below will be folded.
@@ -603,7 +614,9 @@ let g:fold_options = {
    \ }
 
 "For more recent versions of vim (tested on 7.4):
-set listchars=tab:>-     " > is shown at the beginning, - throughout
+"set listchars=tab:>-     " > is shown at the beginning, - throughout
+set list
+set listchars=eol:¬,tab:▸\
 
 "quick format current line in normal mode
 nnoremap v= <s-v>=
@@ -627,20 +640,20 @@ nmap <Leader>y :!echo --==<C-R><C-w>==-- ;ici <C-R><C-W><CR>
 "autocmd FileType c ClangFormatAutoEnable
 
 
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> b <Plug>CamelCaseMotion_b
-map <silent> e <Plug>CamelCaseMotion_e
-map <silent> ge <Plug>CamelCaseMotion_ge
-sunmap w
-sunmap b
-sunmap e
-sunmap ge
-omap <silent> iw <Plug>CamelCaseMotion_iw
-xmap <silent> iw <Plug>CamelCaseMotion_iw
-omap <silent> ib <Plug>CamelCaseMotion_ib
-xmap <silent> ib <Plug>CamelCaseMotion_ib
-omap <silent> ie <Plug>CamelCaseMotion_ie
-xmap <silent> ie <Plug>CamelCaseMotion_ie
+map <silent> <leader>w <Plug>CamelCaseMotion_w
+map <silent> <leader>b <Plug>CamelCaseMotion_b
+map <silent> <leader>e <Plug>CamelCaseMotion_e
+map <silent> <leader>ge <Plug>CamelCaseMotion_ge
+sunmap <leader>w
+sunmap <leader>b
+sunmap <leader>e
+sunmap <leader>ge
+omap <silent> <leader>iw <Plug>CamelCaseMotion_iw
+xmap <silent> <leader>iw <Plug>CamelCaseMotion_iw
+omap <silent> <leader>ib <Plug>CamelCaseMotion_ib
+xmap <silent> <leader>ib <Plug>CamelCaseMotion_ib
+omap <silent> <leader>ie <Plug>CamelCaseMotion_ie
+xmap <silent> <leader>ie <Plug>CamelCaseMotion_ie
 
 
 " AWK Embedding:
@@ -656,3 +669,4 @@ syn cluster shCommandSubList add=AWKScriptEmbedded
 hi def link AWKCommand Type
 
 "let g:rainbow_active = 1
+let g:indent_guides_enable_on_vim_startup = 1
