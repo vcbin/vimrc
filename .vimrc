@@ -111,6 +111,7 @@ Plugin 'skywind3000/asyncrun.vim' " vim 8.0 only
 Plugin 'tpope/vim-obsession'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Chiel92/vim-autoformat'
+Plugin 'tell-k/vim-autopep8'
 "Plugin 'rhysd/vim-clang-format' " freeze the editor , typing is stuttering as hell
 "Plugin 'joonty/vdebug'
 
@@ -228,7 +229,7 @@ let g:airline_powerline_fonts = 1 " https://github.com/powerline/fonts
 set laststatus=2
 
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0 " remove ANNOYING pep8 warnings
 let g:syntastic_check_on_wq = 0
 
@@ -288,9 +289,15 @@ nnoremap ? :let @/ = ""<CR>:call gruvbox#hls_show()<CR>?
 "colorscheme molokai
 "colorscheme visualstudio " this one is horrible in terminal
 
-"scroll screen with the find next/previous command
-nnoremap n nzz
-nnoremap N Nzz
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
+""scroll screen with the find next/previous command
+"nnoremap n nzz
+"nnoremap N Nzz
 
 "Bundle 'Valloric/YouCompleteMe'
 " for ycm
@@ -367,6 +374,7 @@ let g:EasyMotion_smartcase = 1
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
+let g:incsearch#auto_nohlsearch = 1
 " You can use other keymappings like <C-l> instead of <CR> if you want to
 " use these mappings as default search and somtimes want to move cursor with
 " EasyMotion.
@@ -670,3 +678,25 @@ hi def link AWKCommand Type
 
 "let g:rainbow_active = 1
 let g:indent_guides_enable_on_vim_startup = 1
+
+" https://stackoverflow.com/questions/234564/tab-key-4-spaces-and-auto-indent-after-curly-braces-in-vim#answer-21323445
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+    " Use filetype detection and file-based automatic indenting.
+    filetype plugin indent on
+
+    " Use actual tab chars in Makefiles.
+    autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
+endif
+
+" For everything else, use a tab width of 4 space chars.
+set tabstop=4       " The width of a TAB is set to 4.
+                    " Still it is a \t. It is just that
+                    " Vim will interpret it to be having
+                    " a width of 4.
+set shiftwidth=4    " Indents will have a width of 4.
+set softtabstop=4   " Sets the number of columns for a TAB.
+set expandtab       " Expand TABs to spaces.
+
+
+autocmd FileType python set equalprg=autopep8\ -
