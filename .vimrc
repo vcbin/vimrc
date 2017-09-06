@@ -1,3 +1,9 @@
+" File              : .vimrc
+" Date              : 06.09.2017
+" Last Modified Date: 06.09.2017
+" File              : .vimrc
+" Date              : 06.09.2017
+" Last Modified Date: 06.09.2017
 set t_Co=256 " required by airline or powerline font color
 set hidden " required by vim-ctrlspace
 
@@ -112,6 +118,7 @@ Plugin 'tpope/vim-obsession'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'tell-k/vim-autopep8'
+Plugin 'alpertuna/vim-header'
 "Plugin 'rhysd/vim-clang-format' " freeze the editor , typing is stuttering as hell
 "Plugin 'joonty/vdebug'
 
@@ -700,3 +707,5 @@ set expandtab       " Expand TABs to spaces.
 
 
 autocmd FileType python set equalprg=autopep8\ -
+let g:header_field_author = 'Yi Liu'
+let g:header_field_author_email = 'liuyi3@mgtv.com'
